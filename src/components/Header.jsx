@@ -1,20 +1,29 @@
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { resetFilters } from '../redux/slices/filterSlice';
 import logoSvg from '../assets/img/pizza-logo.svg';
 import Search from './Search';
 
 function Header() {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const toHomePage = () => {
+		dispatch(resetFilters());
+		navigate('/');
+	};
+
 	return (
 		<div className="header">
 			<div className="container">
-				<Link to="/">
-					<div className="header__logo">
-						<img width="38" src={logoSvg} alt="Pizza logo" />
-						<div>
-							<h1>React Pizza</h1>
-							<p>the most tasty pizza in a verse</p>
-						</div>
+				<div className="header__logo" onClick={toHomePage}>
+					<img width="38" src={logoSvg} alt="Pizza logo" />
+					<div>
+						<h1>React Pizza</h1>
+						<p>the most tasty pizza in a verse</p>
 					</div>
-				</Link>
+				</div>
 				<Search />
 				<div className="header__cart">
 					<Link to="/cart" className="button button--cart">
