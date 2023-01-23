@@ -25,14 +25,14 @@ const filterSlice = createSlice({
 		},
 		setFilters: (state, action) => {
 			state.categoryId = action.payload.categoryId;
-			state.sortType = action.payload.selectedSort;
+			state.sortType = action.payload.sortType;
 			state.orderType = action.payload.orderType;
 			state.currentPage = action.payload.currentPage;
 		},
 		resetFilters: (state, action) => {
 			// state = { ...state, initialState };
 			state.categoryId = initialState.categoryId;
-			state.sortType = initialState.selectedSort;
+			state.sortType = initialState.sortType;
 			state.orderType = initialState.orderType;
 			state.currentPage = initialState.currentPage;
 		},
