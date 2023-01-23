@@ -59,7 +59,6 @@ const Home = () => {
 
 	React.useEffect(() => {
 		window.scrollTo(0, 0);
-		console.log('before fetch', isSearch);
 		if (!isSearch.current) {
 			setIsLoading(true);
 
@@ -77,7 +76,6 @@ const Home = () => {
 				});
 		}
 		isSearch.current = false;
-		console.log('after fetch', isSearch);
 	}, [categoryId, sortType, orderType, searchValue, currentPage]);
 
 	const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
