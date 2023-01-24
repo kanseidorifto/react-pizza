@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { resetFilters } from '../redux/slices/filterSlice';
@@ -14,6 +14,8 @@ function Header() {
 		navigate('/');
 	};
 
+	const { items, totalPrice } = useSelector((state) => state.cart);
+
 	return (
 		<div className="header">
 			<div className="container">
@@ -27,7 +29,7 @@ function Header() {
 				<Search />
 				<div className="header__cart">
 					<Link to="/cart" className="button button--cart">
-						<span>520 $</span>
+						<span>{totalPrice} $</span>
 						<div className="button__delimiter"></div>
 						<svg
 							width="18"
@@ -57,7 +59,7 @@ function Header() {
 								strokeLinejoin="round"
 							/>
 						</svg>
-						<span>3</span>
+						<span>{items.reduce((acc, item) => acc + item.count, 0)}</span>
 					</Link>
 				</div>
 			</div>
