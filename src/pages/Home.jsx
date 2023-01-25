@@ -3,14 +3,18 @@ import qs from 'qs';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import {
+	selectFilter,
+	setCategoryId,
+	setCurrentPage,
+	setFilters,
+} from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzasSlice';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
-import { SearchContext } from '../App';
 
 const Home = () => {
 	const navigate = useNavigate();
@@ -19,7 +23,7 @@ const Home = () => {
 	const isMounted = React.useRef(false);
 
 	const { items, status } = useSelector((state) => state.pizzas);
-	const { categoryId, currentPage, sortType, orderType } = useSelector((state) => state.filter);
+	const { categoryId, currentPage, sortType, orderType, searchValue } = useSelector(selectFilter);
 
 	const onClickCategory = (i) => {
 		dispatch(setCategoryId(i));
@@ -27,8 +31,6 @@ const Home = () => {
 	const onChangePage = (i) => {
 		dispatch(setCurrentPage(i));
 	};
-
-	const { searchValue } = React.useContext(SearchContext);
 
 	React.useEffect(() => {
 		if (isMounted.current) {
@@ -58,7 +60,8 @@ const Home = () => {
 		const category = categoryId > 0 ? `&category=${categoryId}` : '';
 		const sort = sortType;
 		const order = orderType ? 'desc' : 'asc';
-		const search = searchValue ? `&search=${searchValue}` : '';
+		const search = searchValue !== '' ? `&search=${searchValue}` : '';
+		// const search = '';
 
 		dispatch(fetchPizzas({ currentPage, category, sort, order, search }));
 	};
@@ -73,7 +76,7 @@ const Home = () => {
 	}, [categoryId, sortType, orderType, searchValue, currentPage]);
 
 	const skeletons = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
-	console.log(categoryId);
+	// console.log(searchValue);
 	const pizzas = items
 		.filter((obj) => obj.title.toLowerCase().includes(searchValue.toLowerCase()))
 		.map((obj, index) => <PizzaBlock key={index} {...obj} />);
