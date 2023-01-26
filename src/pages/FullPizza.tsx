@@ -4,9 +4,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import '../scss/app.scss';
 
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
 	const typeNames = ['slim', 'traditional'];
-	const [pizza, setPizza] = React.useState();
+	const [pizza, setPizza] = React.useState<{
+		title: string;
+		price: number;
+		imageUrl: string;
+		sizes: number[];
+		types: number[];
+	}>();
 	const navigate = useNavigate();
 	const { id } = useParams();
 
@@ -24,7 +30,7 @@ const FullPizza = () => {
 	}, [id, navigate]);
 
 	if (!pizza) {
-		return 'Loading...';
+		return <p>Loading...</p>;
 	}
 	const { title, price, imageUrl, sizes, types } = pizza;
 	return (

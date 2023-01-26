@@ -6,7 +6,7 @@ import { clearItems, selectCart } from '../redux/slices/cartSlice';
 import CartItem from '../components/CartItem';
 import CartEmpty from '../components/CartEmpty';
 
-const Cart = () => {
+const Cart: React.FC = () => {
 	const dispatch = useDispatch();
 	const { items, totalPrice } = useSelector(selectCart);
 
@@ -85,14 +85,14 @@ const Cart = () => {
 					</div>
 				</div>
 				<div className="content__items">
-					{items.map((item) => (
+					{items.map((item: any) => (
 						<CartItem key={item.id} {...item} />
 					))}
 				</div>
 				<div className="cart__bottom">
 					<div className="cart__bottom-details">
 						<span>
-							Total pizzas: <b>{items.reduce((acc, item) => acc + item.count, 0)}</b>
+							Total pizzas: <b>{items.reduce((acc: number, item: any) => acc + item.count, 0)}</b>
 						</span>
 						<span>
 							Order price: <b>{totalPrice}</b>

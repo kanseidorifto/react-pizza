@@ -10,14 +10,14 @@ const Search = () => {
 	const [value, setValue] = React.useState('');
 	// eslint-disable-next-line
 	const changeSearchValue = React.useCallback(
-		debounce((str) => {
+		debounce((str: string) => {
 			dispatch(setSearchValue(str));
 		}, 700),
 		[],
 	);
-	const onChangeInput = (e) => {
-		setValue(e.target.value);
-		changeSearchValue(e.target.value);
+	const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setValue(event.target.value);
+		changeSearchValue(event.target.value);
 	};
 
 	return (

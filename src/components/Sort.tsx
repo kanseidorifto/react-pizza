@@ -1,26 +1,23 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setSortType, setOrderType, selectFilter } from '../redux/slices/filterSlice';
+import { setSortType, setOrderType, selectFilter, SortType } from '../redux/slices/filterSlice';
 
-function Sort() {
-	// { value, onSelectSort, order, onChangeOrder }
+const Sort: React.FC = () => {
 	const dispatch = useDispatch();
 	const { sortType, orderType } = useSelector(selectFilter);
 
 	const [isVisible, setVisible] = React.useState(false);
-	const sortRef = React.useRef();
-	const sortlist = ['rating', 'price', 'title'];
+	const sortRef = React.useRef<HTMLDivElement>(null);
 
-	const onClickSelectItem = (i) => {
-		// onSelectSort(i);
-		dispatch(setSortType(i));
+	const onClickSelectItem = (obj: SortType) => {
+		dispatch(setSortType(obj));
 		setVisible(false);
 	};
 
 	React.useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (!event.composedPath().includes(sortRef.current)) {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (sortRef.current && !event.composedPath().includes(sortRef.current)) {
 				setVisible(false);
 			}
 		};
@@ -54,7 +51,7 @@ function Sort() {
 			{isVisible && (
 				<div className="sort__popup">
 					<ul>
-						{sortlist.map((obj, i) => (
+						{Object.values(SortType).map((obj, i) => (
 							<li
 								onClick={() => onClickSelectItem(obj)}
 								className={obj === sortType ? 'active' : ''}
@@ -67,6 +64,6 @@ function Sort() {
 			)}
 		</div>
 	);
-}
+};
 
 export default Sort;
