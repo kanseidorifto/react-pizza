@@ -51,7 +51,7 @@ body {
 	&__items {
 		display: grid;
 		grid-template-columns: repeat(4, 1fr);
-		grid-template-rows: repeat(2, 1fr);
+		grid-template-rows: repeat(1, 1fr);
 		grid-column-gap: 11px;
 
 		@media (max-width: 1400px) {
@@ -219,6 +219,9 @@ body {
 					path:first-of-type {
 						display: none;
 					}
+				}
+				&--disabled {
+					opacity: 0.5;
 				}
 			}
 

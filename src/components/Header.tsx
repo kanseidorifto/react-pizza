@@ -1,21 +1,31 @@
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { resetFilters } from '../redux/slices/filterSlice';
 import logoSvg from '../assets/img/pizza-logo.svg';
 import Search from './Search';
-import { selectCart } from '../redux/slices/cartSlice';
+import { selectCart } from '../redux/cart/selectors';
+import { resetFilters } from '../redux/filter/slice';
 
-function Header() {
+const Header: React.FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
+	const { items, totalPrice } = useSelector(selectCart);
+	const isMounted = React.useRef<boolean>(false);
 
 	const toHomePage = () => {
 		dispatch(resetFilters());
 		navigate('/');
 	};
 
-	const { items, totalPrice } = useSelector(selectCart);
+	React.useEffect(() => {
+		if (isMounted.current) {
+			localStorage.setItem('cart', JSON.stringify(items));
+		}
+
+		isMounted.current = true;
+	}, [items]);
 
 	return (
 		<div className="header">
@@ -27,7 +37,7 @@ function Header() {
 						<p>the most tasty pizza in a verse</p>
 					</div>
 				</div>
-				<Search />
+				{window.location.pathname !== '/cart' ? <Search /> : ''}
 				<div className="header__cart">
 					<Link to="/cart" className="button button--cart">
 						<span>{totalPrice} $</span>
@@ -66,6 +76,6 @@ function Header() {
 			</div>
 		</div>
 	);
-}
+};
 
 export default Header;
